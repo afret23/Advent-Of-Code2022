@@ -15,6 +15,7 @@ public class AdventOfCode {
                 list.add(scan.nextLine());
             }
             System.out.println(firstStar(list));
+            System.out.println(secondStar(list));
 
         }catch (FileNotFoundException f){
             System.out.println("File not found!");
@@ -36,6 +37,20 @@ public class AdventOfCode {
         return numberOfOverlapping;
     }
 
+    private static int secondStar(List<String> list){
+        int numberOfOverlapping = 0;
+        for(String data : list){
+            int delimiter = data.indexOf(',');
+            String first = data.substring(0,delimiter);
+            String second = data.substring(delimiter+1);
+            List<Integer> firstList = getNumbers(first);
+            List<Integer> secondList = getNumbers(second);
+            if (isOverlappingAtAll(firstList,secondList)) numberOfOverlapping++;
+        }
+
+        return numberOfOverlapping;
+    }
+
     private static List<Integer> getNumbers(String data){
         int delimiter = data.indexOf('-');
         List<Integer> list = new ArrayList<Integer>();
@@ -49,6 +64,17 @@ public class AdventOfCode {
         boolean overlapping = true;
         for (int i = first.get(0); i <= first.get(first.size()-1); i++){
             if (!second.contains(i)) overlapping = false;
+        }
+
+        return overlapping;
+    }
+
+    private static boolean isOverlappingAtAll(List<Integer> first, List<Integer> second){
+        boolean overlapping = false;
+        for (int i = first.get(0); i <= first.get(first.size()-1); i++){
+            if (second.contains(i)){
+                overlapping = true;
+            }
         }
 
         return overlapping;
